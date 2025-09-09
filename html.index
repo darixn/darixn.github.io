@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>darian@security ~ % portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            /* Solarized Dark Terminal Theme */
+            --base03: #002b36;    /* background */
+            --base02: #073642;    /* background highlights */
+            --base01: #586e75;    /* comments / secondary content */
+            --base00: #657b83;    /* body text / default code / primary content */
+            --base0: #839496;     /* primary content */
+            --base1: #93a1a1;     /* emphasized content */
+            --base2: #eee8d5;     /* background */
+            --base3: #fdf6e3;     /* background highlights */
+            --yellow: #b58900;
+            --orange: #cb4b16;
+            --red: #dc322f;
+            --magenta: #d33682;
+            --violet: #6c71c4;
+            --blue: #268bd2;
+            --cyan: #2aa198;
+            --green: #859900;
+
+            /* Terminal specific colors */
+            --terminal-bg: var(--base03);
+            --terminal-fg: var(--base0);
+            --terminal-bright: var(--base1);
+            --terminal-dim: var(--base01);
+            --terminal-accent: var(--cyan);
+            --terminal-success: var(--green);
+            --terminal-warning: var(--yellow);
+            --terminal-error: var(--red);
+            --terminal-border: var(--base02);
+            --terminal-shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            line-height: 1.6;
+            color: var(--terminal-fg);
+            background: var(--terminal-bg);
+            overflow-x: hidden;
+        }
+
+        /* Terminal Window Chrome */
+        .terminal-window {
+            background: var(--base02);
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 8px 40px var(--terminal-shadow);
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, var(--base02) 0%, var(--base01) 100%);
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close { background: var(--red); }
+        .terminal-button.minimize { background: var(--yellow); }
+        .terminal-button.maximize { background: var(--green); }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--terminal-dim);
+            font-weight: 500;
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 43, 54, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--terminal-border);
+            z-index: 1000;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--terminal-accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '>';
+            color: var(--terminal-success);
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--terminal-fg);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--terminal-accent);
+        }
+
+        .nav-links a::before {
+            content: '# ';
+            color: var(--terminal-dim);
+        }
+
+        .nav-links a:hover::before {
+            color: var(--terminal-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 2rem 80px;
+            background: var(--terminal-bg);
+            position: relative;
+        }
+
+        .hero-terminal {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--base02);
+            border-radius: 10px;
+            box-shadow: 0 20px 60px var(--terminal-shadow);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .terminal-prompt {
+            color: var(--terminal-success);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-output {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--terminal-bright);
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--terminal-accent);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero .description {
+            font-size: 1rem;
+            color: var(--terminal-fg);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .prompt {
+            color: var(--terminal-success);
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+
+        .command {
+            color: var(--terminal-accent);
+            font-weight: 500;
+        }
+
+        .cursor {
+            background: var(--terminal-accent);
+            color: var(--terminal-bg);
+            padding: 0 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: var(--terminal-accent);
+            color: var(--terminal-bg);
+            border-color: var(--terminal-accent);
+        }
+
+        .btn-primary:hover {
+            background: var(--cyan);
+            border-color: var(--cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(42, 161, 152, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--terminal-accent);
+            border-color: var(--terminal-accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--terminal-accent);
+            color: var(--terminal-bg);
+            transform: translateY(-2px);
+        }
+
+        /* About/Experience Section */
+        .about {
+            padding: 80px 2rem;
+            background: var(--base02);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--terminal-bright);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '$ ';
+            color: var(--terminal-success);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--terminal-dim);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .section-subtitle::before {
+            content: '# ';
+            color: var(--terminal-warning);
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .experience-card {
+            background: var(--terminal-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terminal-accent), var(--green));
+        }
+
+        .experience-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--terminal-accent);
+            box-shadow: 0 10px 30px rgba(42, 161, 152, 0.2);
+        }
+
+        .experience-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .experience-icon {
+            color: var(--terminal-success);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .experience-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--terminal-bright);
+        }
+
+        .experience-meta {
+            color: var(--terminal-accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .experience-period {
+            color: var(--terminal-dim);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .experience-card p {
+            color: var(--terminal-fg);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .experience-features {
+            list-style: none;
+        }
+
+        .experience-features li {
+            color: var(--terminal-fg);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .experience-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--terminal-success);
+            font-weight: bold;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 2rem;
+            background: var(--terminal-bg);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--base02);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terminal-accent), var(--green));
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--terminal-accent);
+            box-shadow: 0 10px 30px rgba(42, 161, 152, 0.2);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-icon {
+            color: var(--terminal-success);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--terminal-bright);
+        }
+
+        .service-card p {
+            color: var(--terminal-fg);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            color: var(--terminal-fg);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--terminal-success);
+            font-weight: bold;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 80px 2rem;
+            background: var(--base02);
+        }
+
+        .skills-terminal {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--terminal-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--terminal-shadow);
+        }
+
+        .skills-content {
+            padding: 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: var(--base02);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--terminal-accent);
+            transform: translateY(-2px);
+        }
+
+        .skill-category h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--terminal-bright);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-category h4::before {
+            content: '>';
+            color: var(--terminal-accent);
+            font-weight: 700;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--terminal-bg);
+            color: var(--terminal-fg);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--terminal-accent);
+            color: var(--terminal-bg);
+            border-color: var(--terminal-accent);
+        }
+
+        /* GitHub Section */
+        .github {
+            padding: 80px 2rem;
+            background: var(--terminal-bg);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 2rem;
+            background: var(--base02);
+        }
+
+        .contact-terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--terminal-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--terminal-shadow);
+        }
+
+        .contact-content {
+            padding: 2rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--base02);
+            border-radius: 6px;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--terminal-accent);
+            transform: translateY(-2px);
+        }
+
+        .contact-item .command-prompt {
+            color: var(--terminal-success);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .contact-item a {
+            color: var(--terminal-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .contact-item a:hover {
+            color: var(--cyan);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--terminal-bg);
+            color: var(--terminal-dim);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--terminal-border);
+            font-size: 0.9rem;
+        }
+
+        .footer::before {
+            content: '# ';
+            color: var(--terminal-warning);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--terminal-border);
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--terminal-fg);
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            border-color: var(--terminal-accent);
+            color: var(--terminal-accent);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--base02);
+                flex-direction: column;
+                padding: 2rem;
+                border-bottom: 1px solid var(--terminal-border);
+                border-top: 1px solid var(--terminal-border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero {
+                padding: 80px 1rem 60px;
+            }
+
+            .about,
+            .services,
+            .skills,
+            .github,
+            .contact {
+                padding: 60px 1rem;
+            }
+
+            .experience-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+        }
+
+        /* Terminal-specific animations */
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typewriter 2s steps(40) 1s both;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--terminal-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--terminal-border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--terminal-dim);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">darian@security</a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="#home">home</a></li>
+                <li><a href="#about">about</a></li>
+                <li><a href="#services">services</a></li>
+                <li><a href="#skills">skills</a></li>
+                <li><a href="#github">github</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-terminal terminal-window animate-on-scroll">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
+                </div>
+                <div class="terminal-title">darian@security: ~</div>
+            </div>
+            <div class="hero-content">
+                <div class="command-line">
+                    <span class="prompt">$</span>
+                    <span class="command">whoami</span>
+                </div>
+                <div class="terminal-output">
+                    <h1 class="typewriter">Darian Garcia</h1>
+                    <p class="subtitle">IT Systems Engineer | Security-Focused Mac Admin</p>
+                </div>
+                
+                <div class="command-line">
+                    <span class="prompt">$</span>
+                    <span class="command">cat ./summary.txt</span>
+                </div>
+                <div class="terminal-output">
+                    <p class="description">
+                        Security-conscious IT Systems Engineer with 8+ years of experience architecting endpoint and identity workflows 
+                        for high-growth, high-compliance environments. Specialized in Jamf, Intune, Okta, and infrastructure-as-code 
+                        to enforce DISA, NIST, and FedRAMP-aligned security baselines.
+                    </p>
+                </div>
+
+                <div class="command-line">
+                    <span class="prompt">$</span>
+                    <span class="command">ls -la ./portfolio</span>
+                    <span class="cursor">█</span>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">./hire_me</a>
+                    <a href="#about" class="btn btn-secondary">man darian</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About/Experience Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">cat ./experience.log</h2>
+            <p class="section-subtitle animate-on-scroll">
+                8+ years building secure, scalable endpoint solutions for high-compliance environments
+            </p>
+            
+            <div class="experience-grid">
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="experience-icon">🔒</span>
+                        <h3>Sr. Tier 3 Unix Administrator</h3>
+                    </div>
+                    <div class="experience-meta">Resource Management Concepts, Inc.</div>
+                    <div class="experience-period">Charleston, SC | July 2023 – Present</div>
+                    <ul class="experience-features">
+                        <li>Lead cross-functional Agile initiatives as Scrum facilitator</li>
+                        <li>Increased patch compliance from ~10% to 92% via automation</li>
+                        <li>Architected zero-touch provisioning pipeline with Jamf Pro</li>
+                        <li>Deployed RHEL configs meeting DISA STIG & NIST 800-53</li>
+                        <li>Primary admin for Jamf environments & Google Workspace</li>
+                        <li>Collaborated on FedRAMP-equivalent standards alignment</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="experience-icon">🛡️</span>
+                        <h3>IT Systems Engineer II</h3>
+                    </div>
+                    <div class="experience-meta">Red Canary</div>
+                    <div class="experience-period">Denver, CO (Remote) | Jan 2022 – July 2023</div>
+                    <ul class="experience-features">
+                        <li>Managed 500+ Apple endpoints using Jamf Pro</li>
+                        <li>Developed Okta Workflows for full user lifecycle automation</li>
+                        <li>Achieved zero major findings during annual audit</li>
+                        <li>Led Zero Trust & Zero Touch initiatives end-to-end</li>
+                        <li>Maintained IaC for identity systems with Terraform</li>
+                        <li>Reduced manual IT tasks by 40% through automation</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="experience-icon">⚙️</span>
+                        <h3>System Engineer</h3>
+                    </div>
+                    <div class="experience-meta">Rally Health</div>
+                    <div class="experience-period">Denver, CO | June 2021 – Oct 2021</div>
+                    <ul class="experience-features">
+                        <li>Administered SCCM & Jamf for 2,000+ endpoints</li>
+                        <li>Raised update compliance by ~30% in first 90 days</li>
+                        <li>Developed Python automation for compliance checks</li>
+                        <li>Reduced audit preparation time by ~50%</li>
+                        <li>Managed Google Workspace access & policy enforcement</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <span class="experience-icon">🎧</span>
+                        <h3>Help Desk Associate</h3>
+                    </div>
+                    <div class="experience-meta">2U, Inc.</div>
+                    <div class="experience-period">Denver, CO | Aug 2018 – June 2021</div>
+                    <ul class="experience-features">
+                        <li>Primary Jamf Pro admin for Help Desk operations</li>
+                        <li>Reduced escalations by 25% through documentation</li>
+                        <li>Created Bash scripts for app installations & compliance</li>
+                        <li>Handled procurement, licensing, and fleet tracking</li>
+                        <li>Led security configuration rollouts across workstations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">ls -la ./services/</h2>
+            <p class="section-subtitle animate-on-scroll">
+                Security-focused endpoint management and compliance solutions
+            </p>
+            
+            <div class="services-grid">
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🔐</span>
+                        <h3>compliance_security/</h3>
+                    </div>
+                    <p>FedRAMP, NIST, and DISA control implementation and audit support.</p>
+                    <ul class="service-features">
+                        <li>DISA STIG configuration management</li>
+                        <li>NIST 800-53 control mapping & implementation</li>
+                        <li>FedRAMP-aligned security baselines</li>
+                        <li>Audit evidence collection & documentation</li>
+                        <li>Policy drafting & compliance reporting</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🍎</span>
+                        <h3>jamf_endpoint_mgmt/</h3>
+                    </div>
+                    <p>Complete Jamf Pro administration and macOS fleet management.</p>
+                    <ul class="service-features">
+                        <li>Zero-touch device provisioning pipelines</li>
+                        <li>Swift Dialog & Jamf API automations</li>
+                        <li>Patch management & compliance enforcement</li>
+                        <li>Security policy deployment & monitoring</li>
+                        <li>Custom script development & deployment</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🔑</span>
+                        <h3>identity_automation/</h3>
+                    </div>
+                    <p>Okta Workflows and identity governance automation.</p>
+                    <ul class="service-features">
+                        <li>User provisioning/deprovisioning automation</li>
+                        <li>SaaS integration & access controls</li>
+                        <li>Single Sign-On implementation</li>
+                        <li>Identity governance workflows</li>
+                        <li>API-driven identity management</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">☁️</span>
+                        <h3>infrastructure_code/</h3>
+                    </div>
+                    <p>Infrastructure as Code and cloud automation solutions.</p>
+                    <ul class="service-features">
+                        <li>Terraform infrastructure management</li>
+                        <li>API automation (Python/Bash)</li>
+                        <li>Cloud security configuration</li>
+                        <li>Automated compliance checking</li>
+                        <li>Configuration management at scale</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">📋</span>
+                        <h3>project_management/</h3>
+                    </div>
+                    <p>Agile project leadership and cross-functional coordination.</p>
+                    <ul class="service-features">
+                        <li>Scrum facilitation & sprint planning</li>
+                        <li>Cross-functional stakeholder coordination</li>
+                        <li>OKR-driven planning & execution</li>
+                        <li>Technical documentation & knowledge transfer</li>
+                        <li>Velocity tracking & process optimization</li>
+                    </ul>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🎓</span>
+                        <h3>training_consulting/</h3>
+                    </div>
+                    <p>Security awareness training and technical consulting.</p>
+                    <ul class="service-features">
+                        <li>Security best practices training</li>
+                        <li>Compliance framework guidance</li>
+                        <li>Technical architecture consulting</li>
+                        <li>Process improvement recommendations</li>
+                        <li>Team mentoring & knowledge sharing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="skills-terminal terminal-window animate-on-scroll">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">skills.sh - Technical Expertise</div>
+                </div>
+                <div class="skills-content">
+                    <h2 class="section-title">cat ./skills.json</h2>
+                    <p class="section-subtitle">Deep expertise in security, compliance, and enterprise automation</p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-category animate-on-scroll">
+                            <h4>compliance_frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">fedramp</span>
+                                <span class="skill-tag">nist_800_53</span>
+                                <span class="skill-tag">disa_stig</span>
+                                <span class="skill-tag">security_plus</span>
+                                <span class="skill-tag">cissp_progress</span>
+                                <span class="skill-tag">itar_ear</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>endpoint_management</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">jamf_pro</span>
+                                <span class="skill-tag">jamf_300_cert</span>
+                                <span class="skill-tag">microsoft_intune</span>
+                                <span class="skill-tag">swift_dialog</span>
+                                <span class="skill-tag">sccm</span>
+                                <span class="skill-tag">macos_security</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>identity_automation</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">okta_workflows</span>
+                                <span class="skill-tag">okta_api</span>
+                                <span class="skill-tag">google_workspace</span>
+                                <span class="skill-tag">active_directory</span>
+                                <span class="skill-tag">saml_sso</span>
+                                <span class="skill-tag">zero_trust</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>automation_scripting</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">python</span>
+                                <span class="skill-tag">bash_scripting</span>
+                                <span class="skill-tag">terraform</span>
+                                <span class="skill-tag">infrastructure_code</span>
+                                <span class="skill-tag">api_integration</span>
+                                <span class="skill-tag">rhel_admin</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>project_management</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">agile_scrum</span>
+                                <span class="skill-tag">sprint_planning</span>
+                                <span class="skill-tag">okr_planning</span>
+                                <span class="skill-tag">stakeholder_mgmt</span>
+                                <span class="skill-tag">documentation</span>
+                                <span class="skill-tag">audit_prep</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>certifications</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">security_plus_2023</span>
+                                <span class="skill-tag">jamf_300_2025</span>
+                                <span class="skill-tag">talkdesk_admin_2019</span>
+                                <span class="skill-tag">clearance_eligible</span>
+                                <span class="skill-tag">us_person_itar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Section -->
+    <section id="github" class="github">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">git log --oneline --graph</h2>
+            <p class="section-subtitle animate-on-scroll">
+                Open source projects and automation scripts
+            </p>
+            
+            <div class="services-grid">
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🔧</span>
+                        <h3>jamf-compliance-toolkit</h3>
+                    </div>
+                    <p>Collection of scripts and profiles for DISA STIG and NIST compliance in Jamf Pro environments.</p>
+                    <ul class="service-features">
+                        <li>Automated STIG configuration profiles</li>
+                        <li>Compliance reporting scripts</li>
+                        <li>Swift Dialog security notifications</li>
+                        <li>Jamf API automation examples</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">bash</span>
+                        <span class="skill-tag">jamf-api</span>
+                        <span class="skill-tag">compliance</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🔄</span>
+                        <h3>okta-workflow-templates</h3>
+                    </div>
+                    <p>Reusable Okta Workflow templates for common identity automation tasks.</p>
+                    <ul class="service-features">
+                        <li>User lifecycle automation</li>
+                        <li>SaaS app provisioning flows</li>
+                        <li>Security incident response workflows</li>
+                        <li>Audit log analysis templates</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">okta-workflows</span>
+                        <span class="skill-tag">json</span>
+                        <span class="skill-tag">identity</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🏗️</span>
+                        <h3>terraform-security-modules</h3>
+                    </div>
+                    <p>Infrastructure as Code modules for security-focused cloud deployments.</p>
+                    <ul class="service-features">
+                        <li>NIST-compliant AWS configurations</li>
+                        <li>Identity provider integrations</li>
+                        <li>Automated security group management</li>
+                        <li>Compliance monitoring resources</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">terraform</span>
+                        <span class="skill-tag">aws</span>
+                        <span class="skill-tag">security</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">🐍</span>
+                        <h3>python-security-tools</h3>
+                    </div>
+                    <p>Python utilities for security monitoring and compliance automation.</p>
+                    <ul class="service-features">
+                        <li>Endpoint compliance scanners</li>
+                        <li>API integration helpers</li>
+                        <li>Security metrics dashboards</li>
+                        <li>Automated report generation</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">python</span>
+                        <span class="skill-tag">security</span>
+                        <span class="skill-tag">automation</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">📊</span>
+                        <h3>patch-management-dashboard</h3>
+                    </div>
+                    <p>Real-time dashboard for tracking patch compliance across macOS and RHEL environments.</p>
+                    <ul class="service-features">
+                        <li>Multi-platform patch status tracking</li>
+                        <li>Automated compliance reporting</li>
+                        <li>Risk-based prioritization</li>
+                        <li>Integration with Jamf and RHEL</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">python</span>
+                        <span class="skill-tag">dashboard</span>
+                        <span class="skill-tag">patch-mgmt</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-header">
+                        <span class="service-icon">📋</span>
+                        <h3>agile-security-templates</h3>
+                    </div>
+                    <p>Agile project templates and workflows for security-focused IT operations.</p>
+                    <ul class="service-features">
+                        <li>Sprint planning templates</li>
+                        <li>Security user story examples</li>
+                        <li>Compliance tracking workflows</li>
+                        <li>Retrospective frameworks</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="skill-tag">agile</span>
+                        <span class="skill-tag">templates</span>
+                        <span class="skill-tag">security</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/darixn" class="btn btn-primary" target="_blank">View GitHub Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-terminal terminal-window animate-on-scroll">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">contact.sh - Get In Touch</div>
+                </div>
+                <div class="contact-content">
+                    <h2 class="section-title">./contact --help</h2>
+                    <p class="section-subtitle">Ready to secure your infrastructure? Let's discuss your requirements.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ echo $EMAIL</div>
+                            <a href="mailto:hello@dariangarcia.com">hello@dariangarcia.com</a>
+                        </div>
+                        
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ echo $LOCATION</div>
+                            <span style="color: var(--terminal-fg);">Charleston, SC (Remote/Relocation OK)</span>
+                        </div>
+                        
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ open $LINKEDIN</div>
+                            <a href="https://www.linkedin.com/in/garciadarian/" target="_blank">linkedin.com/in/garciadarian</a>
+                        </div>
+                        
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ curl $GITHUB</div>
+                            <a href="https://github.com/darixn" target="_blank">github.com/garciadarian</a>
+                        </div>
+
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ cat $CLEARANCE</div>
+                            <span style="color: var(--terminal-success);">Eligible for US Government Security Clearance</span>
+                        </div>
+                        
+                        <div class="contact-item animate-on-scroll">
+                            <div class="command-prompt">$ echo $STATUS</div>
+                            <span style="color: var(--terminal-warning);">Available for Contract/FTE Opportunities</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Copyright © 2025 Darian Garcia - IT Systems Engineer. All rights reserved. | exit 0</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 43, 54, 0.98)';
+            } else {
+                header.style.background = 'rgba(0, 43, 54, 0.95)';
+            }
+        });
+
+        // Add staggered animation delays
+        document.querySelectorAll('.experience-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.skill-category').forEach((category, index) => {
+            category.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.contact-item').forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Terminal typing effect for hero section
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const heroTitle = document.querySelector('.hero h1');
+                if (heroTitle) {
+                    typeWriter(heroTitle, 'Darian Garcia', 100);
+                }
+            }, 1000);
+        });
+
+        // Add random terminal-like effects
+        function addTerminalGlitch() {
+            const elements = document.querySelectorAll('.command, .terminal-bright');
+            elements.forEach(el => {
+                if (Math.random() < 0.01) { // 1% chance
+                    el.style.textShadow = '2px 0 #ff00ff, -2px 0 #00ffff';
+                    setTimeout(() => {
+                        el.style.textShadow = 'none';
+                    }, 100);
+                }
+            });
+        }
+
+        // Run glitch effect occasionally
+        setInterval(addTerminalGlitch, 5000);
+
+        // Terminal cursor blink control
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                setInterval(() => {
+                    cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
