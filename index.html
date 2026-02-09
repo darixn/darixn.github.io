@@ -576,6 +576,135 @@
             border-color: var(--terminal-accent);
         }
 
+        /* Blog Section */
+        .blog {
+            padding: 80px 2rem;
+            background: var(--base02);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: var(--terminal-bg);
+            border-radius: 8px;
+            border: 1px solid var(--terminal-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terminal-accent), var(--green));
+        }
+
+        .blog-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--terminal-accent);
+            box-shadow: 0 10px 30px rgba(42, 161, 152, 0.2);
+        }
+
+        .blog-card-header {
+            padding: 1.5rem 2rem 0;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .blog-card-date {
+            color: var(--terminal-dim);
+            font-weight: 500;
+        }
+
+        .blog-card-date::before {
+            content: '$ date: ';
+            color: var(--terminal-success);
+        }
+
+        .blog-card-reading-time {
+            color: var(--terminal-dim);
+        }
+
+        .blog-card-reading-time::before {
+            content: '| ';
+            color: var(--terminal-border);
+        }
+
+        .blog-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--terminal-bright);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .blog-card h3 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .blog-card h3 a:hover {
+            color: var(--terminal-accent);
+        }
+
+        .blog-card-body {
+            padding: 0 2rem;
+        }
+
+        .blog-card-excerpt {
+            color: var(--terminal-fg);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .blog-card-footer {
+            padding: 0 2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .blog-card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-card-link {
+            color: var(--terminal-accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .blog-card-link::before {
+            content: '$ ';
+            color: var(--terminal-success);
+        }
+
+        .blog-card-link:hover {
+            color: var(--cyan);
+        }
+
         /* GitHub Section */
         .github {
             padding: 80px 2rem;
@@ -704,13 +833,15 @@
             .about,
             .services,
             .skills,
+            .blog,
             .github,
             .contact {
                 padding: 60px 1rem;
             }
 
             .experience-grid,
-            .services-grid {
+            .services-grid,
+            .blog-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -786,6 +917,7 @@
                 <li><a href="#about">about</a></li>
                 <li><a href="#services">services</a></li>
                 <li><a href="#skills">skills</a></li>
+                <li><a href="#blog">blog</a></li>
                 <li><a href="#github">github</a></li>
                 <li><a href="#contact">contact</a></li>
             </ul>
@@ -1112,6 +1244,42 @@
         </div>
     </section>
 
+    <!-- Blog Section -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">tail -f ./blog.log</h2>
+            <p class="section-subtitle animate-on-scroll">
+                Thoughts on security, automation, and systems engineering
+            </p>
+
+            <div class="blog-grid">
+                <!-- Blog Post Card Template:
+                     Copy this card block for each new post.
+                     Update: date, reading time, title, href, excerpt, tags. -->
+                <div class="blog-card animate-on-scroll">
+                    <div class="blog-card-header">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">YYYY-MM-DD</span>
+                            <span class="blog-card-reading-time">X min read</span>
+                        </div>
+                        <h3><a href="blog/your-post-slug.html">Your Blog Post Title Here</a></h3>
+                    </div>
+                    <div class="blog-card-body">
+                        <p class="blog-card-excerpt">A brief excerpt or summary of your blog post goes here. Keep it to 1-2 sentences to give readers a preview of the content.</p>
+                    </div>
+                    <div class="blog-card-footer">
+                        <div class="blog-card-tags">
+                            <span class="skill-tag">tag1</span>
+                            <span class="skill-tag">tag2</span>
+                            <span class="skill-tag">tag3</span>
+                        </div>
+                        <a href="blog/your-post-slug.html" class="blog-card-link">cat post.md</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- GitHub Section -->
     <section id="github" class="github">
         <div class="container">
@@ -1364,6 +1532,10 @@
 
         document.querySelectorAll('.skill-category').forEach((category, index) => {
             category.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        document.querySelectorAll('.blog-card').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
         });
 
         document.querySelectorAll('.contact-item').forEach((item, index) => {
