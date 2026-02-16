@@ -4,380 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- UPDATE: Change the title for each post -->
-    <title>Your Post Title | darian@security</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --base03: #002b36;
-            --base02: #073642;
-            --base01: #586e75;
-            --base00: #657b83;
-            --base0: #839496;
-            --base1: #93a1a1;
-            --base2: #eee8d5;
-            --base3: #fdf6e3;
-            --yellow: #b58900;
-            --orange: #cb4b16;
-            --red: #dc322f;
-            --magenta: #d33682;
-            --violet: #6c71c4;
-            --blue: #268bd2;
-            --cyan: #2aa198;
-            --green: #859900;
-            --terminal-bg: var(--base03);
-            --terminal-fg: var(--base0);
-            --terminal-bright: var(--base1);
-            --terminal-dim: var(--base01);
-            --terminal-accent: var(--cyan);
-            --terminal-success: var(--green);
-            --terminal-warning: var(--yellow);
-            --terminal-error: var(--red);
-            --terminal-border: var(--base02);
-            --terminal-shadow: rgba(0, 0, 0, 0.5);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'JetBrains Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            line-height: 1.6;
-            color: var(--terminal-fg);
-            background: var(--terminal-bg);
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 43, 54, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--terminal-border);
-            z-index: 1000;
-        }
-
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 60px;
-        }
-
-        .logo {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--terminal-accent);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo::before {
-            content: '>';
-            color: var(--terminal-success);
-            font-weight: 700;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--terminal-fg);
-            font-weight: 500;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .nav-links a:hover { color: var(--terminal-accent); }
-        .nav-links a::before { content: '# '; color: var(--terminal-dim); }
-        .nav-links a:hover::before { color: var(--terminal-accent); }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: 1px solid var(--terminal-border);
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--terminal-fg);
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-toggle:hover {
-            border-color: var(--terminal-accent);
-            color: var(--terminal-accent);
-        }
-
-        /* Blog Post Layout */
-        .blog-post-page {
-            padding: 100px 2rem 80px;
-        }
-
-        .blog-post-terminal {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--base02);
-            border-radius: 10px;
-            box-shadow: 0 20px 60px var(--terminal-shadow);
-            overflow: hidden;
-        }
-
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, var(--base02) 0%, var(--base01) 100%);
-            border-radius: 10px 10px 0 0;
-            border-bottom: 1px solid var(--terminal-border);
-        }
-
-        .terminal-controls { display: flex; gap: 8px; }
-        .terminal-button { width: 12px; height: 12px; border-radius: 50%; }
-        .terminal-button.close { background: var(--red); }
-        .terminal-button.minimize { background: var(--yellow); }
-        .terminal-button.maximize { background: var(--green); }
-
-        .terminal-title {
-            flex: 1;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--terminal-dim);
-            font-weight: 500;
-        }
-
-        .blog-post-content { padding: 2.5rem; }
-
-        /* Back Link */
-        .blog-post-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--terminal-accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            transition: color 0.3s ease;
-        }
-
-        .blog-post-back::before { content: '$ '; color: var(--terminal-success); }
-        .blog-post-back:hover { color: var(--cyan); }
-
-        /* Post Meta */
-        .blog-post-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-        }
-
-        .blog-post-date { color: var(--terminal-dim); }
-        .blog-post-date::before { content: '$ date: '; color: var(--terminal-success); }
-        .blog-post-reading-time { color: var(--terminal-dim); }
-        .blog-post-reading-time::before { content: '| '; color: var(--terminal-border); }
-
-        /* Post Title */
-        .blog-post-content h1 {
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            font-weight: 700;
-            color: var(--terminal-bright);
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-
-        /* Tags */
-        .blog-post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-
-        .skill-tag {
-            background: var(--terminal-bg);
-            color: var(--terminal-fg);
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid var(--terminal-border);
-            transition: all 0.3s ease;
-        }
-
-        .skill-tag:hover {
-            background: var(--terminal-accent);
-            color: var(--terminal-bg);
-            border-color: var(--terminal-accent);
-        }
-
-        /* Post Body - Supports: h2, h3, p, ul, ol, code, pre, blockquote, a */
-        .blog-post-body {
-            border-top: 1px solid var(--terminal-border);
-            padding-top: 2rem;
-        }
-
-        .blog-post-body h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--terminal-bright);
-            margin: 2rem 0 1rem;
-        }
-
-        .blog-post-body h2::before { content: '## '; color: var(--terminal-accent); }
-
-        .blog-post-body h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--terminal-bright);
-            margin: 1.5rem 0 0.75rem;
-        }
-
-        .blog-post-body h3::before { content: '### '; color: var(--terminal-warning); }
-
-        .blog-post-body p {
-            color: var(--terminal-fg);
-            margin-bottom: 1.25rem;
-            line-height: 1.8;
-            font-size: 0.95rem;
-        }
-
-        .blog-post-body ul, .blog-post-body ol {
-            margin-bottom: 1.25rem;
-            padding-left: 1.5rem;
-        }
-
-        .blog-post-body li {
-            color: var(--terminal-fg);
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .blog-post-body li::marker { color: var(--terminal-success); }
-
-        .blog-post-body code {
-            background: var(--terminal-bg);
-            color: var(--terminal-accent);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            border: 1px solid var(--terminal-border);
-        }
-
-        .blog-post-body pre {
-            background: var(--terminal-bg);
-            border: 1px solid var(--terminal-border);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-        }
-
-        .blog-post-body pre::before {
-            content: '$ ';
-            color: var(--terminal-success);
-            font-weight: 600;
-        }
-
-        .blog-post-body pre code {
-            background: none;
-            border: none;
-            padding: 0;
-            font-size: 0.85rem;
-            color: var(--terminal-fg);
-        }
-
-        .blog-post-body blockquote {
-            border-left: 3px solid var(--terminal-accent);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            background: var(--terminal-bg);
-            border-radius: 0 6px 6px 0;
-        }
-
-        .blog-post-body blockquote p {
-            color: var(--terminal-dim);
-            font-style: italic;
-            margin-bottom: 0;
-        }
-
-        .blog-post-body a {
-            color: var(--terminal-accent);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .blog-post-body a:hover { border-bottom-color: var(--terminal-accent); }
-
-        /* Footer */
-        .footer {
-            background: var(--terminal-bg);
-            color: var(--terminal-dim);
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--terminal-border);
-            font-size: 0.9rem;
-        }
-
-        .footer::before { content: '# '; color: var(--terminal-warning); }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--terminal-bg); }
-        ::-webkit-scrollbar-thumb { background: var(--terminal-border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--terminal-dim); }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .mobile-menu-toggle { display: block; }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--base02);
-                flex-direction: column;
-                padding: 2rem;
-                border-bottom: 1px solid var(--terminal-border);
-                border-top: 1px solid var(--terminal-border);
-            }
-            .nav-links.active { display: flex; }
-            .blog-post-page { padding: 80px 1rem 60px; }
-            .blog-post-content { padding: 1.5rem; }
-        }
-    </style>
+    <title>Your Post Title | dariangarcia.com</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <a href="../index.html" class="logo">darian@security</a>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">&#9776;</button>
+            <a href="../index.html" class="logo">dariangarcia.com</a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
             <ul class="nav-links">
-                <li><a href="../index.html#home">home</a></li>
-                <li><a href="../index.html#about">about</a></li>
-                <li><a href="../index.html#services">services</a></li>
-                <li><a href="../index.html#skills">skills</a></li>
-                <li><a href="../index.html#blog">blog</a></li>
-                <li><a href="../index.html#github">github</a></li>
-                <li><a href="../index.html#contact">contact</a></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../blog.html">D.Log</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Blog Post -->
     <section class="blog-post-page">
-        <div class="blog-post-terminal">
+        <div class="blog-post-terminal terminal-window">
             <div class="terminal-header">
                 <div class="terminal-controls">
                     <div class="terminal-button close"></div>
@@ -385,10 +31,10 @@
                     <div class="terminal-button maximize"></div>
                 </div>
                 <!-- UPDATE: Change the filename in the terminal title -->
-                <div class="terminal-title">vim ~/blog/your-post-slug.md</div>
+                <div class="terminal-title">your-post-slug.md</div>
             </div>
             <div class="blog-post-content">
-                <a href="../index.html#blog" class="blog-post-back">cd ../blog/</a>
+                <a href="../blog.html" class="blog-post-back">Back to D.Log</a>
 
                 <!-- UPDATE: Post date and reading time -->
                 <div class="blog-post-meta">
@@ -406,62 +52,92 @@
                     <span class="skill-tag">tag3</span>
                 </div>
 
-                <!-- UPDATE: Post content below -->
-                <div class="blog-post-body">
-                    <p>Your opening paragraph goes here. This sets the context for the post and hooks the reader.</p>
+                <!--
+                ===================================================
+                BLOG POST CONTENT — WRITE IN MARKDOWN!
+                ===================================================
+                Edit the content inside the <script> tag below.
+                Write standard Markdown — it will be rendered to
+                HTML automatically by marked.js.
 
-                    <h2>Section Heading</h2>
+                Supports: headings, bold, italic, links, images,
+                lists, code blocks, blockquotes, tables, and more.
 
-                    <p>Section content goes here. Use regular paragraph tags for body text.</p>
+                Tips:
+                - Use ``` for fenced code blocks
+                - Use > for blockquotes
+                - Use **bold** and *italic*
+                - Use [text](url) for links
+                - Use ![alt](url) for images
+                ===================================================
+                -->
+                <div id="post-body" class="blog-post-body"></div>
+                <script id="post-markdown" type="text/markdown">
+Your opening paragraph goes here. This sets the context for the post and hooks the reader.
 
-                    <h3>Sub-Section Heading</h3>
+## Section Heading
 
-                    <p>You can use <code>inline code</code> for technical terms, commands, or file names.</p>
+Section content goes here. Use regular paragraphs for body text. You can use **bold** and *italic* text naturally.
 
-                    <p>Use lists for structured content:</p>
+### Sub-Section Heading
 
-                    <ul>
-                        <li>Unordered list item one</li>
-                        <li>Unordered list item two</li>
-                        <li>Unordered list item three</li>
-                    </ul>
+You can use `inline code` for technical terms, commands, or file names.
 
-                    <ol>
-                        <li>Ordered list item one</li>
-                        <li>Ordered list item two</li>
-                        <li>Ordered list item three</li>
-                    </ol>
+Use lists for structured content:
 
-                    <p>Use pre/code blocks for command examples or code snippets:</p>
+- Unordered list item one
+- Unordered list item two
+- Unordered list item three
 
-                    <pre><code>echo "your code or command here"</code></pre>
+1. Ordered list item one
+2. Ordered list item two
+3. Ordered list item three
 
-                    <blockquote>
-                        <p>Use blockquotes for callouts, key takeaways, or notable quotes.</p>
-                    </blockquote>
+Use fenced code blocks for command examples or code snippets:
 
-                    <p>Use <a href="#">links</a> for references to external resources.</p>
-                </div>
+```bash
+echo "your code or command here"
+```
+
+> Use blockquotes for callouts, key takeaways, or notable quotes.
+
+Use [links](https://example.com) for references to external resources.
+
+| Column 1 | Column 2 | Column 3 |
+|-----------|----------|----------|
+| Row 1     | Data     | Data     |
+| Row 2     | Data     | Data     |
+                </script>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <p>Copyright &copy; 2025 Darian Garcia - IT Systems Engineer. All rights reserved. | exit 0</p>
+        <div class="container">
+            <p>© 2026 Darian Garcia — IT Systems Engineer. All rights reserved.</p>
         </div>
     </footer>
 
+    <script src="../assets/js/main.js"></script>
+    <!-- marked.js — lightweight Markdown parser (7KB gzipped, no dependencies) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        function toggleMobileMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
-
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
-            header.style.background = window.scrollY > 50 ? 'rgba(0, 43, 54, 0.98)' : 'rgba(0, 43, 54, 0.95)';
-        });
+        // Render the Markdown content into the post body
+        (function() {
+            const md = document.getElementById('post-markdown');
+            const body = document.getElementById('post-body');
+            if (md && body) {
+                // Get raw markdown, trim leading/trailing whitespace
+                const raw = md.textContent.trim();
+                // Configure marked for GFM (tables, strikethrough, etc.)
+                marked.setOptions({
+                    gfm: true,
+                    breaks: false
+                });
+                body.innerHTML = marked.parse(raw);
+            }
+        })();
     </script>
 </body>
 </html>

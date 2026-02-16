@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | dariangarcia.com</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">dariangarcia.com</a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">D.Log</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 404 -->
+    <section class="hero">
+        <div class="hero-terminal terminal-window animate-on-scroll" style="max-width:700px;">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
+                </div>
+                <div class="terminal-title">bash: error</div>
+            </div>
+            <div class="hero-content" style="text-align:center;">
+                <div class="command-line" style="justify-content:center;">
+                    <span class="prompt">$</span>
+                    <span class="command">cat ./page</span>
+                </div>
+                <h1 style="font-size:4rem;color:var(--terminal-error);margin:1rem 0;">404</h1>
+                <p style="color:var(--terminal-fg);margin-bottom:0.5rem;">Page not found</p>
+                <p style="color:var(--terminal-dim);margin-bottom:2rem;">The page you're looking for doesn't exist or has been moved.</p>
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Darian Garcia — IT Systems Engineer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

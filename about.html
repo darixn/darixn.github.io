@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | dariangarcia.com</title>
+    <meta name="description" content="Experience, skills, and certifications — Darian Garcia, IT Systems Engineer.">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">dariangarcia.com</a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">D.Log</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="terminal-window animate-on-scroll">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">about.sh — Experience & Skills</div>
+                </div>
+                <div class="page-header-content">
+                    <div class="command-line">
+                        <span class="prompt">$</span>
+                        <span class="command">man darian</span>
+                    </div>
+                    <h1 style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--terminal-bright);margin:1rem 0 0.5rem;">About Me</h1>
+                    <p style="color:var(--terminal-fg);line-height:1.8;max-width:800px;">
+                        My background, skills, and experience in enterprise IT systems engineering and security.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section section--alt">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Experience</h2>
+            <p class="section-subtitle animate-on-scroll">8+ years building secure, scalable endpoint solutions for high-compliance environments</p>
+
+            <div class="card-grid">
+                <div class="card animate-on-scroll">
+                    <div class="card-header">
+                        <span class="card-icon">🔒</span>
+                        <h3>Sr. Tier 3 Unix Administrator</h3>
+                    </div>
+                    <div class="card-meta">Resource Management Concepts, Inc.</div>
+                    <div class="card-period">Charleston, SC | July 2023 – Present</div>
+                    <ul class="card-features">
+                        <li>Lead cross-functional Agile initiatives as Scrum facilitator</li>
+                        <li>Increased patch compliance from ~10% to 92% via automation</li>
+                        <li>Architected zero-touch provisioning pipeline with Jamf Pro</li>
+                        <li>Deployed RHEL configs meeting DISA STIG & NIST 800-53</li>
+                        <li>Primary admin for Jamf environments & Google Workspace</li>
+                        <li>Collaborated on FedRAMP-equivalent standards alignment</li>
+                    </ul>
+                </div>
+
+                <div class="card animate-on-scroll">
+                    <div class="card-header">
+                        <span class="card-icon">🛡️</span>
+                        <h3>IT Systems Engineer II</h3>
+                    </div>
+                    <div class="card-meta">Red Canary</div>
+                    <div class="card-period">Denver, CO (Remote) | Jan 2022 – July 2023</div>
+                    <ul class="card-features">
+                        <li>Managed 500+ Apple endpoints using Jamf Pro</li>
+                        <li>Developed Okta Workflows for full user lifecycle automation</li>
+                        <li>Achieved zero major findings during annual audit</li>
+                        <li>Led Zero Trust & Zero Touch initiatives end-to-end</li>
+                        <li>Maintained IaC for identity systems with Terraform</li>
+                        <li>Reduced manual IT tasks by 40% through automation</li>
+                    </ul>
+                </div>
+
+                <div class="card animate-on-scroll">
+                    <div class="card-header">
+                        <span class="card-icon">⚙️</span>
+                        <h3>System Engineer</h3>
+                    </div>
+                    <div class="card-meta">Rally Health</div>
+                    <div class="card-period">Denver, CO | June 2021 – Oct 2021</div>
+                    <ul class="card-features">
+                        <li>Administered SCCM & Jamf for 2,000+ endpoints</li>
+                        <li>Raised update compliance by ~30% in first 90 days</li>
+                        <li>Developed Python automation for compliance checks</li>
+                        <li>Reduced audit preparation time by ~50%</li>
+                        <li>Managed Google Workspace access & policy enforcement</li>
+                    </ul>
+                </div>
+
+                <div class="card animate-on-scroll">
+                    <div class="card-header">
+                        <span class="card-icon">🎧</span>
+                        <h3>Help Desk Associate</h3>
+                    </div>
+                    <div class="card-meta">2U, Inc.</div>
+                    <div class="card-period">Denver, CO | Aug 2018 – June 2021</div>
+                    <ul class="card-features">
+                        <li>Primary Jamf Pro admin for Help Desk operations</li>
+                        <li>Reduced escalations by 25% through documentation</li>
+                        <li>Created Bash scripts for app installations & compliance</li>
+                        <li>Handled procurement, licensing, and fleet tracking</li>
+                        <li>Led security configuration rollouts across workstations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section">
+        <div class="container">
+            <div class="terminal-window animate-on-scroll">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">skills.sh — Technical Expertise</div>
+                </div>
+                <div style="padding:2rem;">
+                    <h2 class="section-title">Skills & Expertise</h2>
+                    <p class="section-subtitle">Deep expertise in security, compliance, and enterprise automation</p>
+
+                    <div class="card-grid card-grid--narrow" style="margin-top:2rem;">
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Compliance Frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">FedRAMP</span>
+                                <span class="skill-tag">NIST 800-53</span>
+                                <span class="skill-tag">DISA STIG</span>
+                                <span class="skill-tag">Security+</span>
+                                <span class="skill-tag">CISSP (In Progress)</span>
+                                <span class="skill-tag">ITAR/EAR</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Endpoint Management</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Jamf Pro</span>
+                                <span class="skill-tag">Jamf 300</span>
+                                <span class="skill-tag">Microsoft Intune</span>
+                                <span class="skill-tag">SwiftDialog</span>
+                                <span class="skill-tag">SCCM</span>
+                                <span class="skill-tag">macOS Security</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Identity & Automation</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Okta Workflows</span>
+                                <span class="skill-tag">Okta API</span>
+                                <span class="skill-tag">Google Workspace</span>
+                                <span class="skill-tag">Active Directory</span>
+                                <span class="skill-tag">SAML/SSO</span>
+                                <span class="skill-tag">Zero Trust</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Automation & Scripting</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">Bash</span>
+                                <span class="skill-tag">Terraform</span>
+                                <span class="skill-tag">Infrastructure as Code</span>
+                                <span class="skill-tag">API Integration</span>
+                                <span class="skill-tag">RHEL Admin</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Project Management</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Agile/Scrum</span>
+                                <span class="skill-tag">Sprint Planning</span>
+                                <span class="skill-tag">OKR Planning</span>
+                                <span class="skill-tag">Stakeholder Management</span>
+                                <span class="skill-tag">Documentation</span>
+                                <span class="skill-tag">Audit Prep</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category animate-on-scroll">
+                            <h4>Certifications</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Security+ (2023)</span>
+                                <span class="skill-tag">Jamf 300 (2025)</span>
+                                <span class="skill-tag">Talkdesk Admin (2019)</span>
+                                <span class="skill-tag">Clearance Eligible</span>
+                                <span class="skill-tag">US Person (ITAR)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Darian Garcia — IT Systems Engineer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

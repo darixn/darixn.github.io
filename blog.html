@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D.Log Entries | dariangarcia.com</title>
+    <meta name="description" content="Blog — thoughts on security, automation, Mac admin, and systems engineering by Darian Garcia.">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">dariangarcia.com</a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">D.Log</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="terminal-window animate-on-scroll">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-button close"></div>
+                        <div class="terminal-button minimize"></div>
+                        <div class="terminal-button maximize"></div>
+                    </div>
+                    <div class="terminal-title">d.log — All Entries</div>
+                </div>
+                <div class="page-header-content">
+                    <div class="command-line">
+                        <span class="prompt">$</span>
+                        <span class="command">tail -f ./blog.log</span>
+                    </div>
+                    <h1 style="font-size:clamp(1.8rem,4vw,2.5rem);color:var(--terminal-bright);margin:1rem 0 0.5rem;">D.Log Entries</h1>
+                    <p style="color:var(--terminal-fg);line-height:1.8;max-width:800px;">
+                        Thoughts on security, automation, and systems engineering.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="section section--alt">
+        <div class="container">
+            <div class="card-grid">
+                <!--
+                ===================================================
+                BLOG POST CARD TEMPLATE
+                ===================================================
+                To add a new post:
+                1. Copy the blog-card block below
+                2. Paste it ABOVE this comment (newest first)
+                3. Update: date, reading time, title, href, excerpt, tags
+                4. Create a matching file in blog/ using post-template.html
+                5. Remove the "Coming Soon" card once you have a real post
+                ===================================================
+                -->
+
+                <div class="blog-card animate-on-scroll">
+                    <div class="blog-card-header">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">2026-02-15</span>
+                            <span class="blog-card-reading-time">5 min read</span>
+                        </div>
+                        <h3><a href="blog/introductions.html">Introductions</a></h3>
+                    </div>
+                    <div class="blog-card-body">
+                        <p class="blog-card-excerpt">This is a blog for system engineers who break things and fix things. Sometimes in that order. Sometimes not.</p>
+                    </div>
+                    <div class="blog-card-footer">
+                        <div class="blog-card-tags">
+                            <span class="skill-tag">IRL</span>
+                            <span class="skill-tag">Hello World</span>
+                        </div>
+                        <a href="blog/introductions.html" class="blog-card-link">Read More →</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Darian Garcia — IT Systems Engineer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
