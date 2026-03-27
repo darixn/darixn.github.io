@@ -1,0 +1,123 @@
+---
+title: Jamf Installomator Helper 
+date: 2026-03-26
+tags: jamf
+reading_time: 8 min read
+excerpt: why more clicks, when less click do more?
+---
+
+
+# d.log's Jamf Installomator Helper 
+
+If you manage a macOS fleet with Jamf Pro, you know the pain: every app you want to deploy means creating a Smart Group, a Self Service policy, an auto-update policy, configuring the right Installomator label, setting behavior flags, and doing it all over again for the next app. Multiply that by dozens of applications and it becomes a full day of clicking through the Jamf UI. I built a tool to eliminate that entirely.
+
+The Jamf Installomator Builder is a web-based tool that connects to your Jamf Pro instance, pulls all 1,120+ Installomator labels, lets you select the apps you need, configure behavior presets, and builds every Smart Group and policy automatically -- in seconds. 
+
+## The Problem with Manual Policy Creation
+Installomator is an incredible open-source project. It handles downloading, verifying, and installing over a thousand macOS apps with a single script call. But actually deploying it across a Jamf environment still requires a lot of manual work per application:
+
+- A Smart Group scoped to devices that have the app installed (for updates)
+-  Self Service policy so users can install the app on demand
+- An auto-update policy scoped to the Smart Group so installed apps stay current
+- Correct Installomator parameters on each policy (blocking process action, notifications, install mode, etc.)
+	  
+
+For 6 apps, that's 6 Smart Groups + 12 policies = 18 Jamf objects to create manually. For 50 apps? You're looking at 150 objects and a very long day in the Jamf console. The Installomator Builder turns that into a few clicks and a single "Build" button.
+
+
+## How It Works
+### Step 1: Connect to Jamf
+
+The tool authenticates to your Jamf Pro instance using API client credentials (Client ID + Client Secret). It uses the Jamf Pro API with OAuth 2.0 -- no basic auth, no stored passwords. You provide your Jamf Pro URL, and the tool tests the connection before proceeding.
+
+![alt text](image-2.png)
+
+### Step 2: Load Installomator Labels
+
+You choose your Installomator source -- the official repo, a custom GitHub fork, or a local script/clone. The builder parses the Installomator script and extracts every available label. From the official repo at installomator/installomator @ main, that's currently 1,120 labels.
+If your organization maintains a fork with custom labels (internal apps, proprietary tools), you can point the builder at that instead and it'll pick those up too.
+
+![alt text](image-1.png)
+
+### Step 3: Select Your Apps
+
+The full label list is presented in a searchable, filterable grid. Check the apps you want to deploy, and the builder shows you exactly how many Jamf objects it will create. For example, selecting 6 apps shows:
+
+	$ 6 apps = 18 Jamf objects (6 Smart Groups + 12 policies)
+
+![alt text](image-3.png)
+
+### Step 4: Configure Behavior
+
+This is where it gets powerful. Instead of setting Installomator parameters on each policy individually, you configure behavior presets that apply across the board. The builder supports separate settings for Self Service and Auto-Update policies:
+
+- Blocking Process Action -- what happens when the app is currently running (prompt\_user for Self Service, prompt\_user\_then\_kill for auto-updates)
+- Notifications -- whether to show macOS notifications (all for Self Service, silent for background updates)
+- Reopen After Install -- whether to relaunch the app post-update
+- Ignore App Store Apps -- skip apps managed by the Mac App Store
+- Install Mode -- Smart (default) only installs if needed
+
+Three presets are available out of the box: Recommended, Silent Background, and Aggressive Updates. You can also customize each setting individually.
+
+![alt text](image-4.png)
+
+### Step 5: Build
+
+Hit "Build Policies" and the tool creates everything in Jamf via the API. The build log streams in real-time so you can watch each object being created:
+
+	\[INFO] Smart Group = "Hazel Installed" (criterion: HazelApp)
+	/ Created: Hazel Installed (id 8085)
+	Smart Group: Hazel
+	\[INFO] Self Service = "Install Hazel" (hazel) behavior=\{"BLOCKING\_PROCESS\_ACTION":"prompt\_user","NOTIFY":"all","REOPEN":"yes","IGNORE\_APP\_STORE\_APPS":"yes","INSTALL":""}
+	/ Created: Install Hazel (id 9195)
+	Self Service: Hazel
+	\[INFO] Auto-Update = "Auto-Update Hazel" group\_id=8085 behavior=\{"BLOCKING\_PROCESS\_ACTION":"prompt\_user\_then\_kill","NOTIFY":"silent","REOPEN":"yes","IGNORE\_APP\_STORE\_APPS":"yes","INSTALL":""}
+	/ Created: Auto-Update Hazel (id 9245)
+	Auto-Update: Hazel
+
+![alt text](image-5.png)    
+
+## Smart Group Verification
+
+One thing the builder does that manual creation often misses: it flags Smart Groups where the app bundle identifier might not match the Installomator label name. After the build completes, any groups that need manual verification are highlighted so you can confirm the scoping criteria is correct in the Jamf UI.
+
+This catches edge cases like apps where the .app bundle name differs from what Installomator calls it -- think groovemusicdigitalenterprisemedition vs the actual app name on disk. Better to catch that during build than discover your auto-update policy isn't scoped to anything.
+The Build Summary
+
+After a build completes, you get a clean summary: objects created, skipped (already existed), and failed. Every created object links back to its Jamf Pro ID so you can jump directly into the console to verify or customize further.
+
+In a typical run, 6 selected apps produced:
+
+- 18 objects created -- 6 Smart Groups + 12 policies
+- 0 skipped -- no duplicates
+- 0 failed -- clean build
+
+## Why Build This?
+
+Three reasons:
+
+Consistency. Every policy follows the same naming convention, the same parameter structure, the same scoping logic. No more "who created this policy and why is it configured differently from the others?"  
+
+Speed. What used to take a full afternoon now takes under a minute. And when Installomator adds new labels (which happens regularly), you can deploy them immediately.  
+
+Honestly, You folks. I have received so much from the Mac admin community that this is something small I wanted to give back.   
+
+## Tech Stack
+
+The builder runs as a local web application:
+
+- Frontend -- Clean, dark-themed UI with step-by-step workflow
+- Jamf Pro API -- OAuth 2.0 client credentials flow for authentication, Classic API + Jamf Pro API for object creation
+- Installomator parsing -- Pulls labels directly from the GitHub repo or a local clone, parses the shell script to extract label metadata
+- Optional icons -- Point it at a local folder of PNG icons named after labels and they'll be attached to Self Service policies automatically
+
+What's Next
+
+A few things on the roadmap:
+
+- Dry-run / preview mode that shows exactly what will be created before hitting the API
+- Diff mode -- compare existing policies against the builder's config and highlight drift
+- Bulk update existing policies when you change behavior presets
+- Export configuration as code (JSON/YAML) for version control
+
+> The best admin tool is the one that makes you wonder how you ever did it manually. Thank you installomator. 
